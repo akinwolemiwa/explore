@@ -13,11 +13,20 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  flutter_screenutil: ^5.0.0+2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.10.0 #flutter pub run flutter_launcher_icons:main
   flutter_lints: ^2.0.0
+
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path_android: "assets/png/exploreicon.png"
+  image_path_ios: "assets/png/exploreicon.png"
 
 flutter:
   uses-material-design: true
