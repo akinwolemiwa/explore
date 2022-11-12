@@ -12,10 +12,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
   flutter_screenutil: ^5.0.0+2
   flutter_svg: ^0.22.0
   http:
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
