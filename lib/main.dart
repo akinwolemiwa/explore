@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:stage_3/fonts.dart';
+import 'package:stage_3/colors.dart';
+import 'package:stage_3/extensions/agent_theme.dart';
+import 'package:stage_3/extensions/context.dart';
 import 'package:stage_3/views/home.dart';
 
 void main() {
@@ -15,9 +17,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Explore',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      themeMode: ThemeMode.system,
+      theme: AppTheme().light,
+      darkTheme: AppTheme().dark,
       home: const SplashScreen(),
     );
   }
@@ -58,10 +60,12 @@ class _SplashScreenState extends State<SplashScreen> {
         alignment: Alignment.center,
         children: [
           Container(
-            color: Colors.white,
+            color: context.isDark ? MyColors.darkTheme : Colors.white,
           ),
           Image.asset(
-            'assets/png/ex_logo.png',
+            context.isDark
+                ? 'assets/png/explore_white.png'
+                : 'assets/png/ex_logo.png',
             height: 90,
           ),
         ],
