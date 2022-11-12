@@ -4,6 +4,7 @@ import 'package:stage_3/extensions/context.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stage_3/fonts.dart';
 import 'package:stage_3/model/country_model.dart';
+import 'package:stage_3/services/call_api.dart';
 import 'package:stage_3/services/country_model_service.dart';
 import 'package:stage_3/views/details.dart';
 
@@ -76,6 +77,10 @@ class _HomePageState extends State<HomePage> {
                 height: 25.h,
               ),
               TextField(
+                onChanged: (value) {
+                  value = value.toLowerCase();
+                  setState(() {});
+                },
                 textAlign: TextAlign.center,
                 cursorColor:
                     context.isDark ? Color(0xffEAECF0) : Color(0xff667085),
@@ -370,8 +375,9 @@ class _HomePageState extends State<HomePage> {
                                             SizedBox(
                                               width: 300.w,
                                               child: Text(
-                                                data.countryList![index].capital
-                                                    .toString(),
+                                                data.countryList?[index].capital
+                                                        .toString() ??
+                                                    '',
                                                 style: TextStyle(
                                                   overflow:
                                                       TextOverflow.ellipsis,

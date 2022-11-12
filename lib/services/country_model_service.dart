@@ -11,6 +11,6 @@ class CountryModelService {
       return CountryDataModel.fromJson(data);
     }
 
-    throw '';
+    throw Exception(response.statusCode);
   }
 }
