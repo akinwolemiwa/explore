@@ -4,7 +4,6 @@ import 'package:stage_3/extensions/context.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stage_3/fonts.dart';
 import 'package:stage_3/model/country_model.dart';
-import 'package:stage_3/services/call_api.dart';
 import 'package:stage_3/services/country_model_service.dart';
 import 'package:stage_3/views/details.dart';
 
@@ -16,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final searchController = TextEditingController();
   @override
   void initState() {
     countryList();
@@ -26,6 +26,8 @@ class _HomePageState extends State<HomePage> {
     final result = await CountryModelService().getCountryData();
     return result;
   }
+
+  String searchString = '';
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +80,11 @@ class _HomePageState extends State<HomePage> {
               ),
               TextField(
                 onChanged: (value) {
-                  value = value.toLowerCase();
-                  setState(() {});
+                  setState(() {
+                    searchString = value;
+                  });
                 },
+                controller: searchController,
                 textAlign: TextAlign.center,
                 cursorColor:
                     context.isDark ? Color(0xffEAECF0) : Color(0xff667085),
@@ -261,141 +265,162 @@ class _HomePageState extends State<HomePage> {
                               scrollDirection: Axis.vertical,
                               itemCount: snapshot.data!.countryList!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 15),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DetailsPage(
-                                            area: data!.countryList?[index].area
-                                                    .toString() ??
-                                                '',
-                                            capital: data
-                                                    .countryList?[index].capital
-                                                    .toString() ??
-                                                '',
-                                            countryName: data
-                                                    .countryList?[index]
-                                                    .name!
-                                                    .common
-                                                    .toString() ??
-                                                '',
-                                            currency: data.countryList?[index]
-                                                    .currencies
-                                                    .toString() ??
-                                                '',
-                                            diallingCode:
-                                                '${data.countryList![index].idd!.root.toString()} ${data.countryList![index].idd!.suffixes.toString()}',
-                                            drivingSide: data
-                                                    .countryList?[index]
-                                                    .car!
-                                                    .side
-                                                    .toString() ??
-                                                '',
-                                            independence: data
-                                                    .countryList?[index]
-                                                    .independent
-                                                    .toString() ??
-                                                '',
-                                            officialLang: data
-                                                    .countryList?[index]
-                                                    .languages
-                                                    .toString() ??
-                                                '',
-                                            population: data.countryList?[index]
-                                                    .population
-                                                    .toString() ??
-                                                '',
-                                            timeZone: data.countryList?[index]
-                                                    .timezones
-                                                    .toString() ??
-                                                '',
-                                            region: data
-                                                    .countryList?[index].region
-                                                    .toString() ??
-                                                '',
-                                            flag: data.countryList![index].flags
-                                                    ?.png
-                                                    .toString() ??
-                                                '',
-                                            coatOfArms: data.countryList![index]
-                                                    .coatOfArms?.png
-                                                    .toString() ??
-                                                '',
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          data!.countryList![index].flag
-                                              .toString(),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 24.sp,
-                                          ),
-                                        ),
-                                        // Image.network(
-                                        //   data!.countryList![index].flags!.png
-                                        //       .toString(),
-                                        //   height: 40.h,
-                                        //   width: 40.w,
-                                        // ),
-                                        SizedBox(
-                                          width: 16.w,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: 300.w,
-                                              child: Text(
-                                                data.countryList![index].name!
-                                                    .common
+                                return snapshot.data!.countryList![index].name!
+                                        .official
+                                        .toString()
+                                        .contains(searchString)
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 15),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailsPage(
+                                                  area: data!
+                                                          .countryList?[index]
+                                                          .area
+                                                          .toString() ??
+                                                      '',
+                                                  capital: data
+                                                          .countryList?[index]
+                                                          .capital
+                                                          .toString() ??
+                                                      '',
+                                                  countryName: data
+                                                          .countryList?[index]
+                                                          .name!
+                                                          .common
+                                                          .toString() ??
+                                                      '',
+                                                  currency: data
+                                                          .countryList?[index]
+                                                          .currencies
+                                                          .toString() ??
+                                                      '',
+                                                  diallingCode:
+                                                      '${data.countryList![index].idd!.root.toString()} ${data.countryList![index].idd!.suffixes.toString()}',
+                                                  drivingSide: data
+                                                          .countryList?[index]
+                                                          .car!
+                                                          .side
+                                                          .toString() ??
+                                                      '',
+                                                  independence: data
+                                                          .countryList?[index]
+                                                          .independent
+                                                          .toString() ??
+                                                      '',
+                                                  officialLang: data
+                                                          .countryList?[index]
+                                                          .languages
+                                                          .toString() ??
+                                                      '',
+                                                  population: data
+                                                          .countryList?[index]
+                                                          .population
+                                                          .toString() ??
+                                                      '',
+                                                  timeZone: data
+                                                          .countryList?[index]
+                                                          .timezones
+                                                          .toString() ??
+                                                      '',
+                                                  region: data
+                                                          .countryList?[index]
+                                                          .region
+                                                          .toString() ??
+                                                      '',
+                                                  flag: data.countryList![index]
+                                                          .flags?.png
+                                                          .toString() ??
+                                                      '',
+                                                  coatOfArms: data
+                                                          .countryList![index]
+                                                          .coatOfArms
+                                                          ?.png
+                                                          .toString() ??
+                                                      '',
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                data!.countryList![index].flag
                                                     .toString(),
                                                 style: TextStyle(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  fontFamily: Fonts.axiforma,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14.sp,
-                                                  color: context.isDark
-                                                      ? Color(0xffF2F4F7)
-                                                      : Color(0xff1C1917),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 2.h,
-                                            ),
-                                            SizedBox(
-                                              width: 300.w,
-                                              child: Text(
-                                                data.countryList?[index].capital
-                                                        .toString() ??
-                                                    '',
-                                                style: TextStyle(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  fontFamily: Fonts.axiforma,
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize: 14.sp,
-                                                  color: context.isDark
-                                                      ? Color(0xffF2F4F7)
-                                                      : Color(0xff1C1917),
+                                                  fontSize: 24.sp,
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              // Image.network(
+                                              //   data!.countryList![index].flags!.png
+                                              //       .toString(),
+                                              //   height: 40.h,
+                                              //   width: 40.w,
+                                              // ),
+                                              SizedBox(
+                                                width: 16.w,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 300.w,
+                                                    child: Text(
+                                                      data.countryList![index]
+                                                          .name!.common
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        fontFamily:
+                                                            Fonts.axiforma,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14.sp,
+                                                        color: context.isDark
+                                                            ? Color(0xffF2F4F7)
+                                                            : Color(0xff1C1917),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 2.h,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 300.w,
+                                                    child: Text(
+                                                      data.countryList?[index]
+                                                              .capital
+                                                              .toString() ??
+                                                          '',
+                                                      style: TextStyle(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        fontFamily:
+                                                            Fonts.axiforma,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14.sp,
+                                                        color: context.isDark
+                                                            ? Color(0xffF2F4F7)
+                                                            : Color(0xff1C1917),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
+                                      )
+                                    : Text('No results');
                               },
                             )
                           : const SizedBox();
