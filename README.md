@@ -30,7 +30,7 @@ Biggest challenge was time. Also have challenges with parsing the json i created
 Make is searchable, filters
 
 ## A link to the APK or iPA file
-https://drive.google.com/file/d/1TL7ipaHJKcYk3TTT92gB_MjT2oV87ZhV/view?usp=share_link
+https://drive.google.com/file/d/10hM3vK-PYLcvVisWM0plbpGnKCanLZ6S/view?usp=share_link
 
 ## A link to the Appetize.io link
 https://appetize.io/app/yizqqwsbydbcgm4bgkqjb5ua5m?device=pixel4&osVersion=12.0&scale=75
